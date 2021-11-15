@@ -58,12 +58,13 @@ public final class Point implements Cloneable {
         // this code is actually quite ugly but i couldn't
         // think of a nicer way of writing it (plus java is
         // already syntactically quite ugly, go C++)
-        for (int i = 0; i < NUM_ROWS; i++) {
-            for (int j = 0; j < NUM_COLS; j++) {
-                if (i != j)
-                    points.get(i).addNeighbour(new PointPair(points.get(j), DISTANCE_DATA[j + (NUM_COLS * i)]));
-            }
-        }
+
+        IntStream.range(0, NUM_ROWS).forEach(i -> points.get(i).setNeighbours(
+                IntStream.range(0, NUM_COLS)
+                        .filter(j -> i != j)
+                        .mapToObj(j -> new PointPair(points.get(j), DISTANCE_DATA[j + (NUM_COLS * i)]))
+                        .collect(Collectors.toList())
+        ));
 
         return points;
     }

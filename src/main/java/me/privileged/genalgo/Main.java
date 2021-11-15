@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
  */
 
 public final class Main {
-    private static final int NUM_POPULATIONS = 10, NUM_ITERATIONS = 2000;
+    private static final int NUM_POPULATIONS = 100, NUM_ITERATIONS = 1000;
 
     public static void main(final String[] args) {
         System.out.println("'A' is the start node, so we will return home at the end");
@@ -43,6 +43,9 @@ public final class Main {
             // successful parent in order to hopefully
             // create a successful child
             routes.forEach(r -> r.updateRoute(minRoute, possibleNodes.get(1).getNeighbour(possibleNodes.get(0))));
+
+            if (i % 10 == 0)
+                System.out.printf("%d%n", fastestRoute.calculateDistance());
         }
 
         if (fastestRoute == null) {

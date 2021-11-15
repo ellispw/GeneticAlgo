@@ -6,7 +6,6 @@ import me.privileged.genalgo.point.Point;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /*
  * Route represents a route from a given point to another point
@@ -16,6 +15,7 @@ import java.util.stream.IntStream;
 
 public final class Route {
     private List<PointPair> route = new ArrayList<>();
+    final Random random = new Random();
 
     /*
      * Method to actually generate a random route from start to end
@@ -86,8 +86,6 @@ public final class Route {
      * Generate random point that is not in the route
      */
     public final PointPair generateRandomPoint(final PointPair start) {
-        final Random random = new Random();
-
         final List<PointPair> filtered = start.getPoint().getNeighbours().stream()
                 .filter(p -> !this.containsPoint(p.getPoint()))
                 .collect(Collectors.toList());
@@ -95,7 +93,7 @@ public final class Route {
         if (filtered.isEmpty())
             return start;
 
-        return filtered.get(random.nextInt(filtered.size()));
+        return filtered.get(this.random.nextInt(filtered.size()));
     }
 
     /*
@@ -105,14 +103,12 @@ public final class Route {
      * Ideally will lead to an evolving population over iterations
      */
     public final void updateRoute(final Route otherRoute, final PointPair start) {
-        final Random random = new Random();
-
         if (this == otherRoute)
             return; // no inbreeding
 
         // so ugly
         this.route.clear();
-        otherRoute.route.forEach(p -> this.route.add(random.nextDouble() >= 0.5D && !this.containsPoint(p.getPoint()) ? p : this.generateRandomPoint(start)));
+        otherRoute.route.forEach(p -> this.route.add(this.random.nextDouble() >= 0.9D && !this.containsPoint(p.getPoint()) ? p : this.generateRandomPoint(start)));
     }
 
     public final void printRoute() {
