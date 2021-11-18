@@ -108,7 +108,7 @@ public final class Route {
 
         // so ugly
         this.route.clear();
-        otherRoute.route.forEach(p -> this.route.add(this.random.nextDouble() >= 0.9D && !this.containsPoint(p.getPoint()) ? p : this.generateRandomPoint(start)));
+        otherRoute.route.forEach(p -> this.route.add(this.random.nextDouble() >= 0.1D && !this.containsPoint(p.getPoint()) ? p : this.generateRandomPoint(start)));
     }
 
     public final void printRoute() {
